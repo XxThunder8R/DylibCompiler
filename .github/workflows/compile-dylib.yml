@@ -1,0 +1,24 @@
+name: Compile Dylib
+
+on:
+  workflow_dispatch:  # Allows you to trigger it manually
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # This is a virtual Linux machine
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3  # Gets your files
+
+      - name: Install Clang
+        run: sudo apt-get install clang -y  # Installs the Clang compiler
+
+      - name: Compile Dylib
+        run: clang -dynamiclib -o InvisibleToggle.dylib InvisibleToggle.cpp -shared -fPIC
+
+      - name: Upload Dylib
+        uses: actions/upload-artifact@v3  # Uploads the compiled file
+        with:
+          name: invisible-toggle-dylib  # The name for your compiled file
+          path: InvisibleToggle.dylib   # Path to the compiled file
